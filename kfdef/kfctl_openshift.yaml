@@ -2,20 +2,19 @@ apiVersion: kfdef.apps.kubeflow.org/v1
 kind: KfDef
 metadata:
   name: opendatahub
-  namespace: josh-proxy
+  namespace: proxy-poc
 spec:
   applications:
   - kustomizeConfig:
       parameters:
-        - name: s3_endpoint_url
-          value: "s3.odh.com"
+      - name: s3_endpoint_url
+        value: s3.odh.com
       repoRef:
         name: manifests
         path: jupyterhub/jupyterhub
     name: jupyterhub
   - kustomizeConfig:
       overlays:
-      #- cuda
       - additional
       repoRef:
         name: manifests
