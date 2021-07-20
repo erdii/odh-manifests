@@ -19,6 +19,14 @@ resources:
 - jupyterhub-singleuser-profiles-sizes-configmap.yaml
 - jupyterhub-spark-operator-configmap.yaml
 - jupyterhub-groups-configmap.yaml
+- traefik-credentials-secret.yaml
+- traefik-configmap.yaml
+- traefik-deployment.yaml
+- traefik-role.yaml
+- traefik-rolebinding.yaml
+- traefik-serviceaccount.yaml
+- traefik-service.yaml
+- traefik-route.yaml
 
 commonLabels:
   opendatahub.io/component: "true"
@@ -65,5 +73,12 @@ vars:
     apiVersion: v1
   fieldref:
     fieldpath: data.jupyterhub_secret
+- name: traefik_credentials_secret
+  objref:
+    kind: ConfigMap
+    name: parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.traefik_credentials_secret
 configurations:
 - params.yaml

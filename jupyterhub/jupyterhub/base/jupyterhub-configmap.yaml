@@ -6,15 +6,18 @@ metadata:
   name: jupyterhub-cfg
 data:
   jupyterhub_config.py: |
+    import os
+
     from jupyterhub_traefik_proxy import TraefikTomlConfigmapProxy
 
     c.JupyterHub.proxy_class = TraefikTomlConfigmapProxy
 
-    c.TraefikTomlConfigmapProxy.traefik_api_url = "http://traefik-ingress-service:8099"
-    # traefik api endpoint login password
-    c.TraefikTomlConfigmapProxy.traefik_api_password = "123"
+    c.TraefikTomlConfigmapProxy.traefik_api_url = "http://traefik-proxy:8099"
+
     # traefik api endpoint login username
-    c.TraefikTomlConfigmapProxy.traefik_api_username = "abc"
+    c.TraefikTomlConfigmapProxy.traefik_api_username = os.environ['TRAEFIK_API_USERNAME']
+    # traefik api endpoint login password
+    c.TraefikTomlConfigmapProxy.traefik_api_password = os.environ['TRAEFIK_API_PASSWORD']
 
     c.TraefikTomlConfigmapProxy.cm_namespace = "proxy-poc"
     c.TraefikTomlConfigmapProxy.cm_name = "traefik-rules"
