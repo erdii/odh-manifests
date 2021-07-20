@@ -86,7 +86,17 @@ spec:
             secretKeyRef:
               name: $(jupyterhub_secret)
               key: CONFIGPROXY_AUTH_TOKEN
-        image: quay.io/odh-jupyterhub/jupyterhub-img:v0.3.1
+        - name: TRAEFIK_API_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: $(traefik-credentials-secret)
+              key: TRAEFIK_API_USERNAME
+        - name: TRAEFIK_API_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: $(traefik-credentials-secret)
+              key: TRAEFIK_API_PASSWORD
+        image: quay.io/maulikjs/jupyterhub-img:v3.5.3-toml-cm-parameterized
         imagePullPolicy: "Always"
         name: jupyterhub
         ports:
@@ -94,6 +104,10 @@ spec:
           protocol: TCP
         resources:
           limits:
+            cpu: "1"
+            memory: 1Gi
+          requests:
+            cpu: "1"
             memory: 1Gi
         volumeMounts:
         - mountPath: /opt/app-root/configs
@@ -109,13 +123,19 @@ spec:
               key: POSTGRESQL_PASSWORD
         - name: JUPYTERHUB_DATABASE_HOST
           value: jupyterhub-db
-        image: quay.io/odh-jupyterhub/jupyterhub-img:v0.3.1
+        image: quay.io/maulikjs/jupyterhub-img:v3.5.3-toml-cm-parameterized
         imagePullPolicy: "Always"
         name: wait-for-database
         resources:
           limits:
+            cpu: "1"
+            memory: 1Gi
+          requests:
+            cpu: "1"
             memory: 1Gi
       serviceAccountName: jupyterhub-hub
+      imagePullSecrets:
+      - name: addon-managed-odh-pullsecret
       volumes:
       - configMap:
           defaultMode: 420
@@ -123,4 +143,3 @@ spec:
         name: config
   triggers:
   - type: ConfigChange
-
