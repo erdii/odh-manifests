@@ -1,5 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+namespace: redhat-ods-applications
+
 resources:
 - jupyterhub-configmap.yaml
 - jupyterhub-secret.yaml
@@ -33,7 +36,8 @@ commonLabels:
 
 configMapGenerator:
 - name: parameters
-  env: params.env
+  envs: 
+    - params.env
 generatorOptions:
   disableNameSuffixHash: true
 vars:
