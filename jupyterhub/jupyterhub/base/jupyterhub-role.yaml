@@ -118,3 +118,9 @@ rules:
     - get
     - list
     - watch
+- apiGroups:
+  - ''
+  resources:
+    - endpoints
+  verbs:
+    - get
