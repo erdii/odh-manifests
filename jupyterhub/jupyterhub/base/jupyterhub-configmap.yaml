@@ -23,6 +23,8 @@ data:
     c.TraefikTomlConfigmapProxy.cm_name = "traefik-rules"
     c.TraefikTomlConfigmapProxy.in_cluster = True
 
+    c.TraefikTomlConfigmapProxy.check_route_timeout = 60
+
     c.JupyterHub.services[0]['url'] = 'http://jupyterhub:8181'
 
   jupyterhub_admins: "admin"
