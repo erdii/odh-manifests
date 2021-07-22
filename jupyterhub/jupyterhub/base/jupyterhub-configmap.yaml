@@ -7,10 +7,13 @@ metadata:
 data:
   jupyterhub_config.py: |
     import os
+    import logging
 
     from jupyterhub_traefik_proxy import TraefikTomlConfigmapProxy
 
     c.JupyterHub.proxy_class = TraefikTomlConfigmapProxy
+
+    c.TraefikTomlConfigmapProxy.log.setLevel(logging.DEBUG)
 
     c.TraefikTomlConfigmapProxy.traefik_api_url = "http://traefik-proxy:8099"
 
